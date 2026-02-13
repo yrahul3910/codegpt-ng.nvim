@@ -20,71 +20,71 @@ local M = {}
 
 ---@type { [string]: codegpt.CommandOpts }
 local default_commands = {
-	completion = {
-		user_message_template = "I have the following {{language}} code snippet: ```{{filetype}}\n{{text_selection}}```\nComplete the rest. Use best practices and write really good documentation. {{language_instructions}} Only return the code snippet and nothing else.",
-		language_instructions = {
-			cpp = "Use modern C++ features.",
-			java = "Use modern Java syntax. Use var when applicable.",
-		},
-	},
-	generate = {
-		user_message_template = "Write code in {{language}} using best practices and write really good documentation. {{language_instructions}} Only return the code snippet and nothing else. {{command_args}}",
-		language_instructions = {
-			cpp = "Use modern C++ features.",
-			java = "Use modern Java syntax. Use var when applicable.",
-		},
-		allow_empty_text_selection = true,
-	},
-	code_edit = {
-		user_message_template = "I have the following {{language}} code: ```{{filetype}}\n{{text_selection}}```\n{{command_args}}. {{language_instructions}} Only return the code snippet and nothing else.",
-		language_instructions = {
-			cpp = "Use modern C++ syntax.",
-		},
-	},
-	explain = {
-		user_message_template = "Explain the following {{language}} code: ```{{filetype}}\n{{text_selection}}``` Explain as if you were explaining to another developer.",
-		callback_type = "text_popup",
-	},
-	question = {
-		user_message_template = "I have a question about the following {{language}} code: ```{{filetype}}\n{{text_selection}}``` {{command_args}}",
-		callback_type = "text_popup",
-	},
-	debug = {
-		user_message_template = "Analyze the following {{language}} code for bugs: ```{{filetype}}\n{{text_selection}}```",
-		callback_type = "text_popup",
-	},
-	doc = {
-		user_message_template = "I have the following {{language}} code: ```{{filetype}}\n{{text_selection}}```\nWrite really good documentation using best practices for the given language. Attention paid to documenting parameters, return types, any exceptions or errors. {{language_instructions}} Only return the documentation snippet and nothing else.",
-		language_instructions = {
-			cpp = "Use doxygen style comments for functions.",
-			java = "Use JavaDoc style comments for functions.",
-		},
-		callback_type = "prepend_lines",
-	},
-	opt = {
-		user_message_template = "I have the following {{language}} code: ```{{filetype}}\n{{text_selection}}```\nOptimize this code. {{language_instructions}} Only return the code snippet and nothing else.",
-		language_instructions = {
-			cpp = "Use modern C++.",
-		},
-	},
-	tests = {
-		user_message_template = "I have the following {{language}} code: ```{{filetype}}\n{{text_selection}}```\nWrite really good unit tests using best practices for the given language. {{language_instructions}} Only return the unit tests. Only return the code snippet and nothing else. ",
-		callback_type = "code_popup",
-		language_instructions = {
-			cpp = "Use modern C++ syntax. Generate unit tests using the gtest framework.",
-			java = "Generate unit tests using the junit framework.",
-		},
-	},
-	chat = {
-		system_message_template = "You are a general assistant to a software developer.",
-		user_message_template = "{{command_args}}",
-		callback_type = "text_popup",
-	},
-	proofread = {
-		callback_type = "text_popup",
-		system_message_template = "You are a {{filetype}} code proofreading assistant. Review the provided code snippet for errors, potential improvements, and best practices. Consider style, correctness, and idiomatic usage. Follow any additional instructions provided by the user.",
-		user_message_template = "I have the following code snippet to review: ```{{filetype}} {{text_selection}}```. Please proofread it for errors and provide feedback. Additional instructions: {{command_args}}",
-	},
+  completion = {
+    user_message_template = "I have the following {{language}} code snippet: ```{{filetype}}\n{{text_selection}}```\nComplete the rest. Use best practices and write really good documentation. {{language_instructions}} Only return the code snippet and nothing else.",
+    language_instructions = {
+      cpp = "Use modern C++ features.",
+      java = "Use modern Java syntax. Use var when applicable.",
+    },
+  },
+  generate = {
+    user_message_template = "Write code in {{language}} using best practices and write really good documentation. {{language_instructions}} Only return the code snippet and nothing else. {{command_args}}",
+    language_instructions = {
+      cpp = "Use modern C++ features.",
+      java = "Use modern Java syntax. Use var when applicable.",
+    },
+    allow_empty_text_selection = true,
+  },
+  code_edit = {
+    user_message_template = "I have the following {{language}} code: ```{{filetype}}\n{{text_selection}}```\n{{command_args}}. {{language_instructions}} Only return the code snippet and nothing else.",
+    language_instructions = {
+      cpp = "Use modern C++ syntax.",
+    },
+  },
+  explain = {
+    user_message_template = "Explain the following {{language}} code: ```{{filetype}}\n{{text_selection}}``` Explain as if you were explaining to another developer.",
+    callback_type = "text_popup",
+  },
+  question = {
+    user_message_template = "I have a question about the following {{language}} code: ```{{filetype}}\n{{text_selection}}``` {{command_args}}",
+    callback_type = "text_popup",
+  },
+  debug = {
+    user_message_template = "Analyze the following {{language}} code for bugs: ```{{filetype}}\n{{text_selection}}```",
+    callback_type = "text_popup",
+  },
+  doc = {
+    user_message_template = "I have the following {{language}} code: ```{{filetype}}\n{{text_selection}}```\nWrite really good documentation using best practices for the given language. Attention paid to documenting parameters, return types, any exceptions or errors. {{language_instructions}} Only return the documentation snippet and nothing else.",
+    language_instructions = {
+      cpp = "Use doxygen style comments for functions.",
+      java = "Use JavaDoc style comments for functions.",
+    },
+    callback_type = "prepend_lines",
+  },
+  opt = {
+    user_message_template = "I have the following {{language}} code: ```{{filetype}}\n{{text_selection}}```\nOptimize this code. {{language_instructions}} Only return the code snippet and nothing else.",
+    language_instructions = {
+      cpp = "Use modern C++.",
+    },
+  },
+  tests = {
+    user_message_template = "I have the following {{language}} code: ```{{filetype}}\n{{text_selection}}```\nWrite really good unit tests using best practices for the given language. {{language_instructions}} Only return the unit tests. Only return the code snippet and nothing else. ",
+    callback_type = "code_popup",
+    language_instructions = {
+      cpp = "Use modern C++ syntax. Generate unit tests using the gtest framework.",
+      java = "Generate unit tests using the junit framework.",
+    },
+  },
+  chat = {
+    system_message_template = "You are a general assistant to a software developer.",
+    user_message_template = "{{command_args}}",
+    callback_type = "text_popup",
+  },
+  proofread = {
+    callback_type = "text_popup",
+    system_message_template = "You are a {{filetype}} code proofreading assistant. Review the provided code snippet for errors, potential improvements, and best practices. Consider style, correctness, and idiomatic usage. Follow any additional instructions provided by the user.",
+    user_message_template = "I have the following code snippet to review: ```{{filetype}} {{text_selection}}```. Please proofread it for errors and provide feedback. Additional instructions: {{command_args}}",
+  },
 }
 
 M.model_override = nil -- override model to use
@@ -94,8 +94,8 @@ M.persistent_override = nil
 
 M.debug_prompt = false
 M.toggle_debug_prompt = function()
-	M.debug_prompt = not M.debug_prompt
-	vim.notify(vim.fn.printf("debug mode = %b", M.debug_prompt), vim.log.levels.INFO, { title = "CodeGPT" })
+  M.debug_prompt = not M.debug_prompt
+  vim.notify(vim.fn.printf("debug mode = %b", M.debug_prompt), vim.log.levels.INFO, { title = "CodeGPT" })
 end
 
 ---@alias codegpt.ProviderType
@@ -174,66 +174,66 @@ end
 
 ---@type codegpt.Options
 local defaults = {
-	connection = {
-		api_provider = "openai",
-		openai_api_key = os.getenv("OPENAI_API_KEY"),
-		chat_completions_url = "https://api.openai.com/v1",
-		ollama_base_url = "http://localhost:11434",
-		proxy = nil,
-		allow_insecure = false,
-	},
-	ui = {
-		stream_output = false,
-		popup_border = { style = "rounded", padding = { 0, 1 } },
-		popup_options = nil,
-		popup_window_options = {},
-		text_popup_filetype = "markdown",
-		popup_type = "popup",
-		horizontal_popup_size = "20%",
-		vertical_popup_size = "20%",
-		-- spinners = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
-		spinners = { "", "", "", "", "", "" },
-		spinner_speed = 80, -- higher is slower
-		mappings = {
-			quit = "q", -- key to quit the popup
-			use_as_output = "<c-o>", -- key to use the popup content as output and replace the original lines
-			use_as_input = "<c-i>", -- key to use the popup content as input for a new API request
-			cancel = "<c-c>", -- cancel current request
-			custom = {}, -- define your custom mappings here
-		},
-	},
-	models = {
-		default = "gpt-3.5-turbo", -- global default model
-		ollama = {
-			default = "gemma3:1b", -- provider level default model. model definition must exist
-		},
-		openai = {
-			["gpt-3.5-turbo"] = {
-				alias = "gpt35",
-				max_tokens = 4096,
-				temperature = 0.8,
-			},
-		},
-	},
-	clear_visual_selection = true,
-	hooks = {
-		request_started = nil,
-		request_finished = nil,
-	},
-	commands = default_commands,
+  connection = {
+    api_provider = "openai",
+    openai_api_key = os.getenv "OPENAI_API_KEY",
+    chat_completions_url = "https://api.openai.com/v1",
+    ollama_base_url = "http://localhost:11434",
+    proxy = nil,
+    allow_insecure = false,
+  },
+  ui = {
+    stream_output = false,
+    popup_border = { style = "rounded", padding = { 0, 1 } },
+    popup_options = nil,
+    popup_window_options = {},
+    text_popup_filetype = "markdown",
+    popup_type = "popup",
+    horizontal_popup_size = "20%",
+    vertical_popup_size = "20%",
+    -- spinners = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+    spinners = { "", "", "", "", "", "" },
+    spinner_speed = 80, -- higher is slower
+    mappings = {
+      quit = "q", -- key to quit the popup
+      use_as_output = "<c-o>", -- key to use the popup content as output and replace the original lines
+      use_as_input = "<c-i>", -- key to use the popup content as input for a new API request
+      cancel = "<c-c>", -- cancel current request
+      custom = {}, -- define your custom mappings here
+    },
+  },
+  models = {
+    default = "gpt-3.5-turbo", -- global default model
+    ollama = {
+      default = "gemma3:1b", -- provider level default model. model definition must exist
+    },
+    openai = {
+      ["gpt-3.5-turbo"] = {
+        alias = "gpt35",
+        max_tokens = 4096,
+        temperature = 0.8,
+      },
+    },
+  },
+  clear_visual_selection = true,
+  hooks = {
+    request_started = nil,
+    request_finished = nil,
+  },
+  commands = default_commands,
 
-	-- general global defaults used as fallback if not defined elsewhere
-	global_defaults = {
-		max_tokens = 4096,
-		temperature = 0.7,
-		number_of_choices = 1,
-		system_message_template = "You are a {{language}} coding assistant.",
-		user_message_template = "{{command}} {{command_args}}\n```{{language}}\n{{text_selection}}\n```\n",
-		callback_type = "replace_lines",
-		allow_empty_text_selection = false,
-		extra_params = {}, -- extra parameters sent to the API
-		max_output_tokens = nil,
-	},
+  -- general global defaults used as fallback if not defined elsewhere
+  global_defaults = {
+    max_tokens = 4096,
+    temperature = 0.7,
+    number_of_choices = 1,
+    system_message_template = "You are a {{language}} coding assistant.",
+    user_message_template = "{{command}} {{command_args}}\n```{{language}}\n{{text_selection}}\n```\n",
+    callback_type = "replace_lines",
+    allow_empty_text_selection = false,
+    extra_params = {}, -- extra parameters sent to the API
+    max_output_tokens = nil,
+  },
 }
 
 ---@type codegpt.Options
@@ -242,7 +242,7 @@ M.opts = {}
 
 ---@param options? codegpt.Options
 M.setup = function(options)
-	M.opts = vim.tbl_deep_extend("force", {}, defaults, options or {})
+  M.opts = vim.tbl_deep_extend("force", {}, defaults, options or {})
 end
 
 return M

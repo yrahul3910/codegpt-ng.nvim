@@ -36,7 +36,7 @@ function M.make_request(command, cmd_opts, command_args, text_selection, is_stre
   local request = {
     temperature = cmd_opts.temperature or 1.0,
     max_tokens = max_tokens,
-    model = cmd_opts.model,
+    model = cmd_opts.model or Config.opts.models.default,
     system = system_message,
     messages = messages,
     stream = is_stream or false,
@@ -59,7 +59,7 @@ function M.make_headers()
   }
 end
 
-local function curl_callback(response, cb)
+local function curl_callback(response, cb, is_stream)
   local status = response.status
   local body = response.body
   if status ~= 200 then
@@ -73,10 +73,12 @@ local function curl_callback(response, cb)
     return
   end
 
-  vim.schedule_wrap(function(msg)
-    local json = vim.fn.json_decode(msg)
-    M.handle_response(json, cb)
-  end)(body)
+  if not is_stream then
+    vim.schedule_wrap(function(msg)
+      local json = vim.fn.json_decode(msg)
+      M.handle_response(json, cb)
+    end)(body)
+  end
 
   Api.run_finished_hook()
 end
